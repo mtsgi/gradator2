@@ -1,8 +1,8 @@
-# Architecture
+# アーキテクチャ
 
-Gradator 2 is designed as a visual CSS gradient editor built on reusable, framework-agnostic TypeScript packages.
+Gradator 2は、再利用可能かつフレームワーク非依存なTypeScriptパッケージを中心に構成するCSSグラデーションのビジュアルエディタです。
 
-## Repository layout
+## リポジトリ構成
 
 ```text
 gradator2/
@@ -14,30 +14,30 @@ gradator2/
 └─ docs/
 ```
 
-## Package responsibilities
+## 各パッケージの責務
 
 ### `packages/core`
 
-Owns the semantic gradient model and editing operations.
+Gradientの意味的なデータモデルと編集操作を担当します。
 
-It must not depend on Vue, browser DOM APIs, or CSS text parsing.
+Vue、ブラウザDOM API、CSS文字列の解析には依存しません。
 
-Planned responsibilities:
+主な責務:
 
-- gradient data model
-- linear / radial / conic variants
-- repeating gradients
-- color stops and color hints
-- positions and angles
-- immutable editing operations
-- normalization and validation
-- primitives suitable for undo / redo
+- Gradientのデータモデル
+- linear / radial / conic の各Gradient型
+- repeating gradient
+- color stop / color hint
+- position / angle
+- immutableな編集操作
+- 正規化とバリデーション
+- undo / redoに利用できる基礎機能
 
 ### `packages/css`
 
-Owns conversion between CSS text and the semantic model from `core`.
+CSS文字列と`core`の内部モデルの相互変換を担当します。
 
-Planned public API:
+想定する公開API:
 
 ```ts
 parseGradient(source)
@@ -46,39 +46,39 @@ parseBackground(source)
 serializeDeclaration(gradient)
 ```
 
-The first implementation should favor a semantic editor model over lossless source formatting.
+初期実装では、元のCSS表記を完全に保持するlossless parserではなく、ビジュアルエディタで扱いやすい意味的なモデルへの変換を優先します。
 
 ### `apps/web`
 
-The visual editor.
+Gradator 2のビジュアルエディタです。
 
-The app should consume the public APIs of `core` and `css` rather than reimplementing gradient rules in Vue components.
+GradientのルールをVueコンポーネント側へ重複実装せず、`core`と`css`の公開APIを利用します。
 
-## Data flow
+## データフロー
 
 ```text
 UI
  ↓
-Gradient model
+Gradient Model
  ↓
 normalize / validate
  ↓
-CSS serializer
+CSS Serializer
 ```
 
-For imported CSS:
+CSSを読み込む場合:
 
 ```text
-CSS source
+CSS Source
  ↓
-CSS parser
+CSS Parser
  ↓
-Gradient model
+Gradient Model
  ↓
-Visual editor
+Visual Editor
 ```
 
-## Initial gradient model
+## 初期Gradientモデル
 
 ```ts
 type Gradient =
@@ -93,13 +93,13 @@ interface GradientBase {
 }
 ```
 
-Repeating gradients are modeled as a property of the three primary gradient types rather than six separate editor types.
+repeating gradientは6種類の独立した型として扱わず、linear / radial / conicの3種類に対するプロパティとして表現します。
 
-## Design principles
+## 設計原則
 
-1. Keep the core framework-agnostic.
-2. Store semantic values, not generated CSS strings, as application state.
-3. Generate CSS from the model.
-4. Make editing operations immutable where practical.
-5. Preserve enough unit information for CSS import/export.
-6. Keep advanced CSS Color features extensible instead of baking them into the MVP.
+1. コアロジックはフレームワーク非依存にする。
+2. 生成済みCSS文字列ではなく、意味的なGradientモデルをアプリケーション状態として保持する。
+3. CSSはモデルから生成する。
+4. 編集操作は可能な限りimmutableにする。
+5. CSSのimport / exportに必要な単位情報を保持する。
+6. CSS Colorの高度な機能はMVPへ固定的に組み込まず、後から拡張可能な設計にする。
