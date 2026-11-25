@@ -29,6 +29,46 @@ gradator2/
 - `@gradator/css`: CSS Gradientのパーサー / シリアライザー
 - `apps/web`: Gradator 2のビジュアルエディタ
 
+## 技術スタック
+
+- **Runtime / Package Manager**: Node.js 26 LTS / npm 12（npm Workspaces）
+- **Toolchain**: Vite+ 1.x（Vite 8.x / Rolldown / tsdown / Vite Task）
+- **Language**: TypeScript 7.0.x
+- **Web (`apps/web`)**: Vue 3.5（Composition API / `<script setup>`）、`@vitejs/plugin-vue`、素のCSS + CSS Custom Properties
+- **Libraries (`@gradator/core`, `@gradator/css`)**: Pure TypeScript、ESM、`vp pack`（tsdown）によるバンドルと型定義（`.d.mts`）出力
+- **Test / Quality**: Vitest 5.x、Playwright、Oxlint、Oxfmt
+
+## 開発コマンド
+
+リポジトリルートから以下のコマンドを実行できます。
+
+```bash
+# 依存パッケージのインストール
+npm ci
+
+# Webアプリ開発サーバーの起動
+npm run dev
+
+# 全パッケージとWebアプリのビルド
+npm run build
+
+# フォーマット・Lint・型チェックの一括実行
+npm run check
+
+# Lintの実行
+npm run lint
+
+# フォーマットチェック / フォーマット適用
+npm run fmt:check
+npm run fmt
+
+# Unit Testの実行（Vitest）
+npm test
+
+# E2E Testの実行（Playwright）
+npm run test:e2e
+```
+
 ## 開発状況
 
 開発初期段階です。
