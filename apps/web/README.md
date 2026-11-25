@@ -1,7 +1,7 @@
 # Gradator 2 Web
 
-Visual editor for Gradator 2.
+Gradator 2のビジュアルエディタです。
 
-Planned stack: Vue 3, TypeScript, and Vite.
+予定している技術スタックはVue 3、TypeScript、Vite系ツールチェーンです。
 
-This app should use the public APIs from the core and CSS packages rather than owning gradient parsing or serialization logic.
+Gradientの解析・シリアライズをWebアプリ側で独自実装せず、`@gradator/core`と`@gradator/css`の公開APIを利用します。
