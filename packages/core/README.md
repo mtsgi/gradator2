@@ -1,12 +1,12 @@
 # Gradator Core
 
-Framework-agnostic TypeScript model and editing operations for CSS gradients.
+CSS Gradientを扱うための、フレームワーク非依存なTypeScriptデータモデルと編集操作を提供します。
 
-Planned areas:
+主な対象:
 
-- gradient types
-- color stops and hints
-- positions and angles
-- immutable editor operations
-- normalization
-- validation
+- Gradient型
+- color stop / color hint
+- position / angle
+- immutableな編集操作
+- 正規化
+- バリデーション
