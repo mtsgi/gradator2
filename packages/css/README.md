@@ -1,8 +1,8 @@
 # Gradator CSS
 
-CSS parser and serializer for Gradator's semantic gradient model.
+Gradatorの意味的なGradientモデルとCSS文字列を相互変換するパーサー / シリアライザーです。
 
-Planned APIs:
+想定するAPI:
 
 - `parseGradient()`
 - `serializeGradient()`
