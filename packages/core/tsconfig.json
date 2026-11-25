@@ -5,7 +5,8 @@
     "lib": ["ES2023"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "declaration": true
+    "declaration": true,
+    "isolatedDeclarations": true
   },
   "include": ["src"]
 }
