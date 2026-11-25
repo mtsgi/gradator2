@@ -1,20 +1,20 @@
 # Gradator 2
 
-A visual CSS gradient editor and TypeScript toolkit.
+CSSグラデーションを視覚的に作成・編集できるエディタ兼TypeScriptツールキットです。
 
-Gradator 2 is the successor to [Gradator](https://github.com/mtsgi/gradator), rebuilt around a library-first architecture for creating, editing, parsing, and serializing CSS gradients.
+Gradator 2は、初代 [Gradator](https://github.com/mtsgi/gradator) の後継プロジェクトです。CSSグラデーションの作成・編集・解析・シリアライズを、再利用可能なライブラリを中心とした構成で実装します。
 
-## Goals
+## 目標
 
-- Support linear, radial, and conic gradients
-- Support repeating gradients
-- Provide an interactive visual editor
-- Keep the gradient model and editing logic framework-agnostic
-- Parse CSS gradients into an editable model
-- Serialize the model back to CSS
-- Make the core reusable outside the web app
+- linear / radial / conic gradient に対応する
+- repeating gradient に対応する
+- 直感的に操作できるビジュアルエディタを提供する
+- Gradientのデータモデルと編集ロジックをフレームワーク非依存にする
+- CSSグラデーションを編集可能な内部モデルへ変換する
+- 内部モデルからCSSを生成する
+- Webアプリ以外からも再利用できるコアライブラリを提供する
 
-## Planned architecture
+## 構成
 
 ```text
 gradator2/
@@ -25,10 +25,10 @@ gradator2/
    └─ css/
 ```
 
-- `@gradator/core`: gradient data model and editing operations
-- `@gradator/css`: CSS gradient parser and serializer
-- `apps/web`: Gradator 2 visual editor
+- `@gradator/core`: Gradientのデータモデルと編集操作
+- `@gradator/css`: CSS Gradientのパーサー / シリアライザー
+- `apps/web`: Gradator 2のビジュアルエディタ
 
-## Status
+## 開発状況
 
-Early development.
+開発初期段階です。
