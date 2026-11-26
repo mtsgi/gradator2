@@ -81,16 +81,35 @@ Visual Editor
 ## 初期Gradientモデル
 
 ```ts
+type GradientKind = 'linear' | 'radial' | 'conic';
+
 type Gradient = LinearGradient | RadialGradient | ConicGradient;
 
-interface GradientBase {
-  id: string;
-  repeating: boolean;
-  stops: GradientStop[];
+interface GradientBase<TStop extends GradientStop = GradientStop> {
+  readonly id: string;
+  readonly repeating: boolean;
+  readonly stops: readonly TStop[];
+}
+
+interface LinearGradient extends GradientBase<LinearGradientStop> {
+  readonly kind: 'linear';
+  readonly direction?: LinearDirection;
+}
+
+type RadialGradient = CircleRadialGradient | EllipseRadialGradient | UnspecifiedShapeRadialGradient;
+
+interface ConicGradient extends GradientBase<ConicGradientStop> {
+  readonly kind: 'conic';
+  readonly angle?: Angle;
+  readonly position?: GradientPosition;
 }
 ```
 
-repeating gradientは6種類の独立した型として扱わず、linear / radial / conicの3種類に対するプロパティとして表現します。
+- repeating gradientは6種類の独立した型として扱わず、linear / radial / conicの3種類に対する `repeating: boolean` として表現します。
+- `GradientStop<TPosition>` は `ColorStop<TPosition> | ColorHint<TPosition>` の discriminated union とし、linear / radial では `LengthPercentage`、conic では `AnglePercentage` に型レベルで制限します。
+- `Color` は `space` による discriminated union とし、初期段階では `srgb` と `hsl` を定義します。
+- CSS構文の省略を表現できるよう、`direction` / `shape` / `size` / `position` / `angle` などのジオメトリ系プロパティはオプショナルとしています。
+- 現時点の初期データモデルでは、double-position color stop（`red 20% 40%`）、色補間空間（`in oklch` 等）、`srgb` / `hsl` 以外の高度な CSS Color 表現（`oklch`, `color-mix()`, `var(--...)` 等）、CSS 数学関数（`calc()` 等）、複数グラデーションレイヤー合成は対象外としています。
 
 ## 設計原則
 
