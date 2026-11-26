@@ -10,3 +10,9 @@ CSS Gradientを扱うための、フレームワーク非依存なTypeScriptデ�
 - immutableな編集操作
 - 正規化
 - バリデーション
+
+## 特徴
+
+- Pure TypeScript / ESM
+- フレームワーク非依存・DOM API非依存・runtime dependency 0
+- `vp pack`（tsdown）によるESMおよび型定義ファイル（`.d.mts`）出力
