@@ -111,6 +111,21 @@ interface ConicGradient extends GradientBase<ConicGradientStop> {
 - CSS構文の省略を表現できるよう、`direction` / `shape` / `size` / `position` / `angle` などのジオメトリ系プロパティはオプショナルとしています。
 - 現時点の初期データモデルでは、double-position color stop（`red 20% 40%`）、色補間空間（`in oklch` 等）、`srgb` / `hsl` 以外の高度な CSS Color 表現（`oklch`, `color-mix()`, `var(--...)` 等）、CSS 数学関数（`calc()` 等）、複数グラデーションレイヤー合成は対象外としています。
 
+## Gradient 編集操作 API
+
+`@gradator/core` の編集操作は、以下の7つの純粋関数として提供します。
+
+- Stop 操作: `addStop()`, `removeStop()`, `updateStop()`, `moveStop()`, `duplicateStop()`
+- Gradient 操作: `setRepeating()`, `setGradientKind()`
+
+設計方針:
+
+- **統一 Result 型**: 例外を投げず、`GradientOperationResult<TGradient>`（`{ ok: true, gradient } | { ok: false, error }`）で構造化されたエラーコード（`STOP_NOT_FOUND` / `DUPLICATE_STOP_ID` / `INVALID_STOP_ID` / `INVALID_STOP_INDEX` / `INVALID_STOP_PATCH` / `INCOMPATIBLE_STOP_POSITION` / `INVALID_GEOMETRY`）を返します。
+- **非破壊性と構造共有**: 入力モデルや `stops` 配列を破壊せず、変更対象外の stop やジオメトリのオブジェクト参照を共有します。正当な操作で構造化データの値に変化がない場合は入力と同一参照（`===`）を返します（CSS の意味的等価性や単位正規化は no-op 判定の対象外です）。
+- **決定論的 ID 管理と Undo / Redo 拡張性**: stop の複製でも新しい `id` の明示指定を必須とすることで決定論性を維持し、`result.ok && result.gradient !== current` による変更検出と合わせて将来のスナップショット方式・コマンド方式の Undo / Redo へ拡張しやすくしています。
+- **種別変更時の単位とジオメトリ**: `radial` ↔ `conic` 間のみ `position` を引き継ぎます。非互換な stop 位置単位（`Length` ↔ `Angle`）はデフォルトでエラーとし、オプションで `'drop'` または `'convert-angle'`（`linear` / `radial` 向けのみ、1 周 = `100%` の相対位置への換算であり見た目の完全な維持は保証しません）を明示選択できます。
+- **正規化・バリデーションとの責務分離**: 編集操作 API では操作上の構造的不変条件（ID 重複・インデックス範囲・パッチの妥当性・種別と位置単位/形状とサイズの整合性）のみを検証し、必須 stop 数・数値範囲・stop 順序や角度の正規化は後続の正規化・バリデーション API に委ねます。
+
 ## 設計原則
 
 1. コアロジックはフレームワーク非依存にする。
