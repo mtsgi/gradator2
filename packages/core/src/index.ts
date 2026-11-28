@@ -1,8 +1,11 @@
 import { GRADIENT_KINDS, type GradientKind } from './gradient.ts';
 
 export * from './color.ts';
+export * from './gradient-operations.ts';
 export * from './gradient.ts';
+export * from './operation-result.ts';
 export * from './position.ts';
+export * from './stop-operations.ts';
 export * from './stop.ts';
 export * from './units.ts';
 
